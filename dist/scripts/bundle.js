@@ -52642,6 +52642,13 @@ var AuthorActions = {
             actionType: ActionTypes.CREATE_AUTHOR,
             author: newAuthor
         })
+    },
+    updateAuthor: function(author) {
+        var updatedAuthor = AuthorApi.saveAuthor(author)
+        Dispatcher.dispatch({
+            actionType: ActionTypes.UPDATE_AUTHOR,
+            author: updatedAuthor
+        })
     }
 }
 
@@ -52866,7 +52873,6 @@ class AuthorList extends React.Component {
 var React = require('react');
 
 var AuthorStore = require('../../stores/authorStore');
-var AuthorActions = require('../../actions/authorActions');
 
 var AuthorList = require('./authorList');
 
@@ -52891,7 +52897,7 @@ class Authors extends React.Component {
   
   module.exports = Authors;
 
-},{"../../actions/authorActions":78,"../../stores/authorStore":96,"./authorList":85,"react":72,"react-router-dom":58}],87:[function(require,module,exports){
+},{"../../stores/authorStore":96,"./authorList":85,"react":72,"react-router-dom":58}],87:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -52946,8 +52952,12 @@ class ManageAuthorPage extends React.Component {
             return;
         }
 
-        AuthorActions.createAuthor(this.state.author);
-
+        if(this.state.author.id) {
+            AuthorActions.updateAuthor(this.state.author);
+        } else {
+            AuthorActions.createAuthor(this.state.author);
+        }
+        
         this.setState({isBlocking: false});
         toastr.success("Author saved.");
         this.setState({redirectToReferrer: true})
@@ -53093,7 +53103,7 @@ module.exports = NotFound;
 
 module.exports = {
     "CREATE_AUTHOR": "CREATE_AUTHOR",
-
+    "UPDATE_AUTHOR": "UPDATE_AUTHOR"
 };
 
 },{}],93:[function(require,module,exports){
@@ -53167,6 +53177,13 @@ Dispatcher.register(function(action) {
         case ActionTypes.CREATE_AUTHOR:
             _authors.push(action.author)
             AuthorStore.emitChange();
+            break;
+        case ActionTypes.UPDATE_AUTHOR:
+            _authors.push(action.author)
+            AuthorStore.emitChange();            
+            break;
+        default:
+            //Do nothing!
     }
 });
 

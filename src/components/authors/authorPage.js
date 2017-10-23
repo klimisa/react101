@@ -3,7 +3,6 @@
 var React = require('react');
 
 var AuthorStore = require('../../stores/authorStore');
-var AuthorActions = require('../../actions/authorActions');
 
 var AuthorList = require('./authorList');
 

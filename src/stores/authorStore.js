@@ -31,6 +31,13 @@ Dispatcher.register(function(action) {
         case ActionTypes.CREATE_AUTHOR:
             _authors.push(action.author)
             AuthorStore.emitChange();
+            break;
+        case ActionTypes.UPDATE_AUTHOR:
+            _authors.push(action.author)
+            AuthorStore.emitChange();            
+            break;
+        default:
+            //Do nothing!
     }
 });
 
